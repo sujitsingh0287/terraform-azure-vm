@@ -2,7 +2,9 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: US-PRD-AGENT
+  demands:
+    - agent.name -equals CLIENT_AGENT
 
 variables:
   tf_version: '1.5.0'
@@ -21,10 +23,10 @@ steps:
     provider: 'azurerm'
     command: 'init'
     backendType: 'azurerm'
-    backendServiceArm: 'My-Service-Conn'     # <-- Replace with your actual service connection
-    backendAzureRmResourceGroupName: 'tfstate-rg'  # <-- This must already exist
-    backendAzureRmStorageAccountName: 'tfstate001' # <-- This too
-    backendAzureRmContainerName: 'tfstate'
+    backendServiceArm: 'My-Service-Conn'               # Replace with actual service connection name
+    backendAzureRmResourceGroupName: 'newyork-rg-test'      # Must exist
+    backendAzureRmStorageAccountName: 'newyorkstorage007'     # Must exist
+    backendAzureRmContainerName: 'tfstate'             # Must exist
     backendAzureRmKey: 'terraform.tfstate'
 
 # Step 3: Terraform Plan
@@ -43,4 +45,3 @@ steps:
     command: 'apply'
     environmentServiceNameAzureRM: 'My-Service-Conn'
     commandOptions: '-auto-approve'
-
