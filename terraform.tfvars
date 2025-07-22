@@ -1,3 +1,3 @@
-rg_name = "us-prd-demo009"
+rg_name = "us-prd-demo0011"
 location = "East US"
-Dev_STG = "usprdstg009"
+Dev_STG = "usprdstg0011"
