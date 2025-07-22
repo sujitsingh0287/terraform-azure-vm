@@ -6,12 +6,12 @@ terraform {
     }
   }
 
-  #  backend "azurerm" {
-  #   resource_group_name   = "us_prd_rg" #Jis RG me tera storage account hai
-  #   storage_account_name  = "us-prd-sa" #Storaget ka naam (lowercase only!)
-  #   container_name        = "tfstate"               # Blob container ka naam
-  #   key                   = "terraform.tfstate" # State file ka naam
-# }
+   backend "azurerm" {
+    resource_group_name   = "us-prd-demo001" #Jis RG me tera storage account hai
+    storage_account_name  = "usprdstg001" #Storaget ka naam (lowercase only!)
+    container_name        = "tfstate"               # Blob container ka naam
+    key                   = "terraform.tfstate" # State file ka naam
+}
 
 }
 
