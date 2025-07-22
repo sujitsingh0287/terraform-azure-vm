@@ -1,0 +1,46 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  tf_version: '1.5.0'
+
+steps:
+# Step 1: Install Terraform
+- task: TerraformInstaller@1
+  inputs:
+    terraformVersion: '$(tf_version)'
+  displayName: 'Install Terraform'
+
+# Step 2: Terraform Init
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Init'
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendType: 'azurerm'
+    backendServiceArm: 'My-Service-Conn'     # <-- Replace with your actual service connection
+    backendAzureRmResourceGroupName: 'tfstate-rg'  # <-- This must already exist
+    backendAzureRmStorageAccountName: 'tfstate001' # <-- This too
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'terraform.tfstate'
+
+# Step 3: Terraform Plan
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Plan'
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    environmentServiceNameAzureRM: 'My-Service-Conn'
+
+# Step 4: Terraform Apply
+- task: TerraformTaskV4@4
+  displayName: 'Terraform Apply'
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    environmentServiceNameAzureRM: 'My-Service-Conn'
+    commandOptions: '-auto-approve'
+
